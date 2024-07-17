@@ -52,22 +52,26 @@ INSERT INTO CategoriesOfBooks(Books_ID, Category) VALUES
     (5, 'Computer Systems'),
     (6, 'Software Engineering');
 ------------------------------------------------------------
-CREATE TABLE Sections 
+CREATE TABLE SectionsOfLibrary 
 (
     ID INT PRIMARY KEY IDENTITY (1,1),
-    Section VARCHAR(40)
+    Section VARCHAR(40),
+	Books_ID INT FOREIGN KEY REFERENCES Books(ID),
 );
 
-INSERT INTO Sections(Section) VALUES 
-    ('Section A1'),
-    ('Section A2'),
-	('Section B1'),
-	('Section B2');
+INSERT INTO SectionsOfLibrary(Section,Books_ID) VALUES 
+    ('Section A1',1),
+    ('Section A2',2),
+	('Section B1',4),
+	('Section B1',5),
+	('Section B1',6),
+	('Section B2',3);
+
 ------------------------------------------------------------
 CREATE TABLE Employees 
 (
     ID INT PRIMARY KEY IDENTITY (1,1),
-    Sections_ID INT FOREIGN KEY REFERENCES Sections(ID),
+    Sections_ID INT FOREIGN KEY REFERENCES SectionsOfLibrary(ID),
     EmpName VARCHAR(40)
 );
 
@@ -104,10 +108,10 @@ FULL JOIN Books
 ON Authors.ID = Books.Authors_ID;
 ------------------------------------------------------------
 --Inner JOIN EXAMPLE :
-SELECT Employees.EmpName as 'Employee Name' , Sections.Section as 'Section'
+SELECT Employees.EmpName as 'Employee Name' , SectionsOfLibrary.Section as 'Section'
 FROM Employees
-inner JOIN Sections
-ON Employees.Sections_ID = Sections.ID;
+inner JOIN SectionsOfLibrary
+ON Employees.Sections_ID = SectionsOfLibrary.ID;
 
 SELECT Books.Authors_ID as 'Author' ,Authors.AuthorName as 'Author Name',Books.BookName as 'Book' , CategoriesOfBooks.Category as 'Category'
 FROM CategoriesOfBooks
